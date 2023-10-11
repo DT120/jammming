@@ -1,82 +1,188 @@
+// Function to redirect the user to Spotify's authorization page
+export function redirectToSpotify() {
+  const client_id = 'eac0a050b17d4ea2a929097665a69acd';
+  const redirect_uri = 'http://localhost:3000/callback';
+  const stateKey = 'spotify_auth_state';
+  const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private playlist-modify-public playlist-modify-private';
+  const show_dialog = false;
+
+  // Generate a random state for security purposes
+  const state = generateRandomString(16);
+  localStorage.setItem(stateKey, state); // Store the state in local storage
+
+  // Construct the authorization URL with the necessary parameters and redirect the user
+  const authorizationUrl = 'https://accounts.spotify.com/authorize' +
+    '?client_id=' + encodeURIComponent(client_id) +
+    '&response_type=token' +
+    '&redirect_uri=' + encodeURIComponent(redirect_uri) +
+    '&state=' + encodeURIComponent(state) +
+    '&scope=' + encodeURIComponent(scope) +
+    '&show_dialog=' + show_dialog;
+
+  // Log the generated authorization URL for debugging
+  console.log('Authorization URL:', authorizationUrl);
+
+  window.location.href = authorizationUrl; // Redirect the user to Spotify for authorization
+}
+
+// Helper function to generate a random string of the given length
+function generateRandomString(length) {
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+
+  return text;
+}
+
+
+// Function to extract the access token from the URL fragment
 export function extractAccessToken() {
-    const currentUrl = window.location.href;
-    const urlFragment = currentUrl.split('#')[1];
-    if (urlFragment) {
-      const urlParams = new URLSearchParams(urlFragment);
-      const accessToken = urlParams.get('access_token');
-      return accessToken;
+  const currentUrl = window.location.href;
+  const urlFragment = currentUrl.split('#')[1]; // Split URL at '#' to get the fragment
+  if (urlFragment) { // Check if fragment exists
+    const urlParams = new URLSearchParams(urlFragment); // Parse URL fragment into parameters
+    const accessToken = urlParams.get('access_token'); // Get the 'access_token' parameter
+    return accessToken; // Return the access token or null if not found
+  }
+  return null; // Return null if there is no fragment
+}
+
+// Function to get the current user's profile
+export async function getUserProfileId(accessToken) {
+  const cors = 'https://cors-anywhere.herokuapp.com/';
+  const apiUrl = cors + 'https://api.spotify.com/v1/me'; // Spotify API endpoint to get user data
+
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+  };
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers,
+    });
+
+    if (response.ok) {
+      const userData = await response.json();
+      console.log('User Data:', userData)
+      console.log('User ID:', userData.id); // Log user id
+      return userData.id;
+    } else {
+      console.error('API Request Error:', response.statusText);
+      console.error('API Response Status Code:', response.status);
+      return null;
     }
+  } catch (error) {
+    console.error('API Request Error:', error);
     return null;
   }
-  
-  export async function searchSpotify(query, accessToken) {
-    const cors = 'https://cors-anywhere.herokuapp.com/';
-    const apiUrl = cors + 'https://api.spotify.com/v1/search?q=' + encodeURIComponent(query) + '&type=track';
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-    };
-  
-    try {
-      const response = await fetch(apiUrl, {
-        method: 'GET',
-        headers,
-      });
-  
-      // Log the request URL and headers for debugging
-      console.log('API Request URL:', apiUrl);
-      console.log('API Request Headers:', headers);
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data)
-        return data; // Return the search results
-      } else {
-        console.error('API Request Error:', response.statusText);
-        // Log the response status code for debugging
-        console.error('API Response Status Code:', response.status);
-        return [];
-      }
-    } catch (error) {
-      console.error('API Request Error:', error);
+}
+
+// Function to search for tracks on Spotify using the provided access token
+export async function searchSpotify(query, accessToken) {
+  const cors = 'https://cors-anywhere.herokuapp.com/';
+  const apiUrl = cors + 'https://api.spotify.com/v1/search?q=' + encodeURIComponent(query) + '&type=track';
+  const headers = {
+    Authorization: `Bearer ${accessToken}`, // Add the access token to the headers
+  };
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers,
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      return data; // Return the search results if the response is successful
+    } else {
+      console.error('API Request Error:', response.statusText); // Log an error if the request is not successful
+      // Log the response status code for debugging
+      console.error('API Response Status Code:', response.status);
       return [];
     }
+  } catch (error) {
+    console.error('API Request Error:', error); // Log an error if an exception occurs during the request
+    return [];
   }
-  
-  export function redirectToSpotify() {
-    // Implement your redirection logic here
-    const client_id = 'eac0a050b17d4ea2a929097665a69acd';
-    const redirect_uri = 'http://localhost:3000/callback';
-    const stateKey = 'spotify_auth_state';
-    const scope = 'user-read-private user-read-email';
-    const show_dialog = false;
-  
-    // Generate a random state
-    const state = generateRandomString(16);
-    localStorage.setItem(stateKey, state);
-  
-    // Construct the authorization URL and redirect
-    const authorizationUrl = 'https://accounts.spotify.com/authorize' +
-      '?client_id=' + encodeURIComponent(client_id) +
-      '&response_type=token' +
-      '&redirect_uri=' + encodeURIComponent(redirect_uri) +
-      '&state=' + encodeURIComponent(state) +
-      '&scope=' + encodeURIComponent(scope) +
-      '&show_dialog=' + show_dialog;
-    
-    // Log the generated authorization URL for debugging
-    console.log('Authorization URL:', authorizationUrl);
-  
-    window.location.href = authorizationUrl;
-  }
-  
-  function generateRandomString(length) {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  
-    for (let i = 0; i < length; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+}
+
+// Function for creating playlist
+export async function createPlaylist(accessToken, userId, playlistName) {
+  const cors = 'https://cors-anywhere.herokuapp.com/';
+  const apiUrl = cors + 'https://api.spotify.com/v1/users/' + encodeURIComponent(userId) + '/playlists';
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+  };
+
+  // Define the data for creating the playlist
+  const data = {
+    name: playlistName,
+    public: false, // Change to true if you want the playlist to be public
+    collaborative: false, // Change to true if you want the playlist to be collaborative
+    description: 'My Jammming Playlist on Spotify',
+  };
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data), // Convert data to JSON and send it in the request body
+    });
+
+    if (response.ok) {
+      const playlist = await response.json();
+      console.log(playlist);
+      return playlist; // Return the created playlist if the response is successful
+    } else {
+      console.error('API Request Error:', response.statusText);
+      // Log the response status code for debugging
+      console.error('API Response Status Code:', response.status);
+      return null;
     }
-  
-    return text;
+  } catch (error) {
+    console.error('API Request Error:', error);
+    return null;
   }
-  
+}
+
+export async function addTracksToPlaylist(accessToken, playlistId, trackURIs) {
+  const cors = 'https://cors-anywhere.herokuapp.com/';
+  const apiUrl = `${cors}https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+  };
+
+  // Define the data for adding tracks to the playlist
+  const data = {
+    uris: trackURIs, // An array of track URIs to add to the playlist
+  };
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data), // Convert data to JSON and send it in the request body
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Tracks added to the playlist:', result);
+      return result; // Return the result if the response is successful
+    } else {
+      console.error('API Request Error:', response.statusText);
+      // Log the response status code for debugging
+      console.error('API Response Status Code:', response.status);
+      return null;
+    }
+  } catch (error) {
+    console.error('API Request Error:', error);
+    return null;
+  }
+}

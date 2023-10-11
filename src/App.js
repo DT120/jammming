@@ -6,12 +6,11 @@ import SearchBar from './SearchBar';
 import * as API from './utils/API'; // Import functions under the alias 'API'
 
 function App() {
-  // State for the playlist name and all available tracks
+  // State for the playlist name and all available tracks and login state
   const [playlistName, setPlaylistName] = useState('');
   const [playlist, setPlaylist] = useState([]);
   const [tracks, setTracks] = useState([]);
-  const [filteredTracks, setFilteredTracks] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false); // Track login state
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // Check if the user is logged in when the component mounts
   useEffect(() => {
@@ -21,7 +20,7 @@ function App() {
     }
   }, []);
 
-   // Function to handle search when the Enter key is pressed
+   // Function to handle when the Enter key is pressed
    const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.target.blur();
@@ -43,24 +42,14 @@ function App() {
     API.searchSpotify(searchQuery, accessToken)
       .then((data) => {
         console.log('Data from Spotify API:', data);
-        // Update filteredTracks with search results
         console.log('Tracks:', data.tracks.items);
-
+        // Update tracks with search results 
         setTracks(data.tracks.items);
-        //setFilteredTracks(data);
       })
       .catch((error) => {
         console.error('Error searching Spotify:', error);
       });
   };
-
-  // Check if the user is logged in when the component mounts
-  useEffect(() => {
-    const accessToken = API.extractAccessToken();
-    if (accessToken) {
-      setLoggedIn(true);
-    }
-  }, []);
 
   // Add a track to the playlist
   const addToPlaylist = (track) => {
@@ -73,18 +62,40 @@ function App() {
     setPlaylist(updatedPlaylist);
   };
 
-  // Function to save the playlist
-  const savePlaylist = () => {
+  const savePlaylist = async () => {
     // Check if the playlist name is not empty
     if (playlistName.trim() !== '') {
-      // Here, you can send the playlist data and the playlistName to your server or perform any desired action
-      // For now, we'll just log the name and the tracks in the console
-      console.log('Playlist Name:', playlistName);
-      console.log('Playlist Tracks:', playlist);
-      // Clear the playlist name input field
-      setPlaylistName('');
-      // Clear the playlist
-      setPlaylist([]);
+      const accessToken = API.extractAccessToken();
+      try {
+        const userId = await API.getUserProfileId(accessToken);
+        const newPlaylist = await API.createPlaylist(accessToken, userId, playlistName);
+  
+        if (playlist) {
+          const playlistId = newPlaylist.id; // Get the ID of the newly created playlist
+  
+          // Extract the track URIs from the playlist
+          const trackURIs = playlist.map((track) => track.uri);
+  
+          // Add the tracks to the playlist
+          const addTracksResponse = await API.addTracksToPlaylist(accessToken, playlistId, trackURIs);
+  
+          if (addTracksResponse) {
+            // Log the name and the tracks in the console
+            console.log('Playlist Name:', playlistName);
+            console.log('Playlist Tracks:', playlist);
+            // Clear the playlist name input field
+            setPlaylistName('');
+            // Clear the playlist
+            setPlaylist([]);
+          } else {
+            console.error('Error adding tracks to the playlist.');
+          }
+        } else {
+          console.error('Error creating the playlist.');
+        }
+      } catch (error) {
+        console.error('Error saving playlist:', error);
+      }
     } else {
       // Handle the case where the playlist name is empty
       alert('Please enter a playlist name.');
@@ -121,7 +132,7 @@ function App() {
                 <SearchResults tracks={tracks} addToPlaylist={addToPlaylist} />
               </div>
               <div className="col-md-6">
-                {/* Display the playlist */}
+                
                 {/* Input field for the playlist name */}
                 <h2>
                   <input
@@ -131,6 +142,7 @@ function App() {
                     onChange={(e) => setPlaylistName(e.target.value)}
                     onKeyDown={handleKeyDown}
                   />
+                {/* Display the playlist */}
                 </h2>
                 <Playlist tracks={playlist} removeFromPlaylist={removeFromPlaylist} />
                 <div className="text-center mt-4">
