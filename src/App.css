@@ -3,13 +3,13 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to bottom, #8A084B, #FF00FF);
+  background: linear-gradient(to bottom, #5F04B4, #FF00FF);
   color: #fff;
 }
 
 /* Style the header */
 header {
-  background-color: #9400D3;
+  background-color: #34004D;
   padding: 20px;
   text-align: center;
   width: 100%;
@@ -30,45 +30,55 @@ header h1 {
 }
 
 /* Style the main content container */
-.content-container {
-  display: flex;
+.container {
   max-width: 1200px;
-  width: 100%;
-  background-color: #C71585;
+  margin: 20px auto; /* Center the container horizontally */
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  margin-top: 20px;
 }
 
 /* Style the columns */
 .column {
-  flex: 1;
   padding: 20px;
+}
+
+/* Style the search container */
+.search-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center; /* Center the content horizontally */
+  align-items: flex-start; /* Align items to the top */
+  padding: 20px 0; /* Add padding to the top for spacing */
 }
 
 /* Style the search bar */
 input[type="text"] {
   padding: 10px;
-  width: 100%;
   border: none;
   border-radius: 20px;
-  margin-bottom: 20px;
   font-size: 16px;
-  background-color: #fff;
 }
 
-/* Style the search button */
-button {
+/* Style the rounded buttons */
+button,
+button.save-button {
+  /* Apply to all buttons */
   padding: 10px 20px;
-  background-color: #9400D3;
+  background-color: #5F04B4;
   color: #fff;
   border: none;
-  border-radius: 20px;
+  border-radius: 20px; /* Rounded corners for all buttons */
   font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Add a hover effect to all buttons */
+button:hover,
+button.save-button:hover {
+  /* Apply to all buttons */
+  background-color: #8d1b95;
+  /* Special styling for "Save to Spotify" button */
 }
 
 /* Style the tracklist */
@@ -99,11 +109,64 @@ button {
 
 /* Style the results and playlist columns */
 .column.results {
-  background-color: #fff; /* Adjust the background color for the results column */
-  border-radius: 0 10px 10px 0; /* Rounded corners on the left side */
+  background-color: #8d1b95;
+  border-radius: 0 10px 10px 0;
 }
 
 .column.playlist {
-  background-color: #C71585; /* Adjust the background color for the playlist column */
-  border-radius: 10px 0 0 10px; /* Rounded corners on the right side */
+  background-color: #6B1A82;
+  border-radius: 10px 0 0 10px;
+}
+
+/* Font Awesome icon styling for the "Save to Spotify" button */
+button.save-button i {
+  margin-right: 5px; /* Add spacing between the icon and text */
+  font-size: 16px;
+}
+
+/* Style the "Add to Playlist" and "Remove from Playlist" buttons */
+button.add-button,
+button.remove-button {
+  padding: 10px 20px;
+  background-color: #4CAF50; /* Green color for "Add to Playlist" */
+  color: #fff;
+  border: none;
+  border-radius: 20px; /* Rounded corners for consistency */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px; /* Add spacing between buttons */
+}
+
+/* Add a hover effect to the "Add to Playlist" and "Remove from Playlist" buttons */
+button.add-button:hover,
+button.remove-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Style the input within an h2 element */
+h2 input[type="text"] {
+  border: none;
+  background: none;
+  box-shadow: none;
+  color: inherit; /* Inherit the text color from its parent */
+  font-size: inherit; /* Inherit the font size from its parent */
+  font-family: inherit; /* Inherit the font family from its parent */
+  padding: 0; /* Remove padding to make it inline with text */
+  width: auto; /* Allow it to expand to fit content */
+}
+
+/* Define a keyframe animation */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Apply the animation to an element */
+.rotate-element {
+  animation: rotate 2s linear infinite; /* Apply the "rotate" animation for 2 seconds infinitely */
 }

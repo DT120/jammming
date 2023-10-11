@@ -16,12 +16,12 @@ const Track = (props) => {
                 {/* Display track information */}
                 <div className="song-info">
                     <p>{track.name}</p>
-                    <p>{track.artist}</p>
-                    <p>{track.album}</p>
+                    <p>{track.artists[0].name}</p>
+                    <p>{track.album.name}</p>
                 </div>
                 {/* Buttons for adding to the playlist and saving to Spotify */}
                 <div className="track-buttons">
-                    <button onClick={handleAddToPlaylist}>Add to Playlist</button>
+                    <button onClick={handleAddToPlaylist}>+</button>
                     <button>Save to Spotify</button>
                 </div>
             </div>

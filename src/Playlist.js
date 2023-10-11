@@ -18,14 +18,13 @@ const Playlist = (props) => {
           <div className="playlist-song-info" key={index}>
             {/* Display track information */}
             <p>{track.name}</p>
-            <p>{track.artist}</p>
-            <p>{track.album}</p>
+            <p>{track.artists[0].name}</p>
+            <p>{track.album.name}</p>
             {/* Buttons for removing from the playlist and saving to Spotify */}
             <div className="track-buttons">
               <button onClick={() => handleRemoveFromPlaylist(track)}>
-                Remove from Playlist
+                -
               </button>
-              <button>Save to Spotify</button>
             </div>
           </div>
         ))}
