@@ -71,102 +71,9 @@ button:hover {
   display: flex; /* Use flexbox for better control */
   align-items: center;
   padding: 8px 0; /* Reduce padding */
-  border-bottom: 1px solid #383838;
-}
-
-/* Style track information */
-.track-info {
-  flex: 1; /* Allow the track info to expand */
-  padding-left: 10px;
-}
-
-/* Style buttons */
-.buttons {
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* Style columns using CSS Grid */
-.column {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  padding: 10px; /* Reduce padding */
-}
-
-/* Improve search bar style */
-input[type="text"] {
-  padding: 8px;
-  border: none;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  background: #242424;
-  color: #fff;
-}
-
-/* Improve "Add to Playlist" and "Remove from Playlist" button styles */
-button.add-button,
-button.remove-button {
-  padding: 8px 12px; /* Reduce button size */
-  background-color: #4CAF50;
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin: 5px;
-}
-
-/* Add a hover effect to these buttons */
-button.add-button:hover,
-button.remove-button:hover {
-  background-color: #45a049;
-}
-
-/* Simplify the input within an h2 element style */
-h2 input[type="text"] {
-  border: none;
-  background: none;
-  box-shadow: none;
-  color: inherit;
-  font-size: inherit;
-  font-family: inherit;
-  padding: 2px;
-  width: auto;
-}
-
-/* Style the "Results" and "Playlist" columns */
-.column.results {
-  background-color: #571257;
-  color: #fff;
-  flex: 1; /* Allow both columns to share available space */
-}
-
-.column.playlist {
-  background-color: #2E0249;
-  color: #fff;
-  flex: 1; /* Allow both columns to share available space */
-}
-
-/* Improve button consistency and spacing */
-button.save-button i {
-  margin-right: 5px;
-  font-size: 16px;
-}
-
-/* Style individual tracks */
-.track {
-  display: flex; /* Use flexbox for better control */
-  align-items: center;
-  padding: 8px 0; /* Reduce padding */
   border-bottom: 2px solid #383838; /* Increase border thickness */
 }
 
-/* Style artist name */
-.track .artist-name {
-  font-size: 0.8rem; /* Decrease font size for artist name */
-}
 /* Style track information */
 .track-info {
   flex: 1; /* Allow the track info to expand */
@@ -202,4 +109,7 @@ button.save-button i {
   flex: 1; /* Allow both columns to share available space */
 }
 
-
+/* Style artist name */
+.track .artist-name {
+  font-size: 0.8rem; /* Decrease font size for artist name */
+}
