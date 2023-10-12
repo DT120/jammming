@@ -1,32 +1,26 @@
 import React from "react";
 
-// Define the Track component
 const Track = (props) => {
-    // Destructure props to get track and addToPlaylist function
-    const { track, addToPlaylist } = props;
+  const { track, addToPlaylist } = props;
 
-    // Function to handle adding the track to the playlist
-    const handleAddToPlaylist = () => {
-        addToPlaylist(track);
-    }
+  const handleAddToPlaylist = () => {
+    addToPlaylist(track);
+  }
 
-    return ( 
-        <div className='track'>
-            <div className='track-header'>
-                {/* Display track information */}
-                <div className="song-info">
-                    <p>{track.name}</p>
-                    <p>{track.artists[0].name}</p>
-                    <p>{track.album.name}</p>
-                </div>
-                {/* Buttons for adding to the playlist and saving to Spotify */}
-                <div className="track-buttons">
-                    <button onClick={handleAddToPlaylist}>+</button>
-                    <button>Save to Spotify</button>
-                </div>
-            </div>
-        </div>
-     );
+  return ( 
+    <div className='track'>
+      <div className='album-image'>
+        <img src={track.album.images[2].url} alt={track.album.name} />
+      </div>
+      <div className='track-info'>
+        <p className='track-name'>{track.name} {track.explicit ? <span className='explicit-tag'>E</span> : null}</p>
+        <p className='artist-name'>{track.artists.map((artist) => artist.name).join(', ')}</p>
+      </div>
+      <div>
+        <button onClick={handleAddToPlaylist}>+</button>
+      </div>
+    </div>
+  );
 }
- 
+
 export default Track;

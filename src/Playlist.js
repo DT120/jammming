@@ -11,20 +11,19 @@ const Playlist = (props) => {
   };
 
   return (
-    <div className='playlist-track'>
-      <div className='playlist-track-header'>
-        {/* Map through tracks and render individual playlist items */}
+    <div className="playlist-track">
+      <div className="playlist-track-header">
         {tracks.map((track, index) => (
-          <div className="playlist-song-info" key={index}>
-            {/* Display track information */}
-            <p>{track.name}</p>
-            <p>{track.artists[0].name}</p>
-            <p>{track.album.name}</p>
-            {/* Buttons for removing from the playlist and saving to Spotify */}
+          <div className="track" key={index}>
+            <div className="album-image">
+              <img src={track.album.images[2].url} alt={track.album.name} />
+            </div>
+            <div className="track-info">
+              <p className="track-name">{track.name} {track.explicit ? <span className='explicit-tag'>E</span> : null}</p>
+              <p className="artist-name">{track.artists.map((artist) => artist.name).join(', ')}</p>
+            </div>
             <div className="track-buttons">
-              <button onClick={() => handleRemoveFromPlaylist(track)}>
-                -
-              </button>
+              <button onClick={() => handleRemoveFromPlaylist(track)}>-</button>
             </div>
           </div>
         ))}
@@ -32,5 +31,6 @@ const Playlist = (props) => {
     </div>
   );
 };
+
 
 export default Playlist;

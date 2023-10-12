@@ -20,8 +20,19 @@ function App() {
     }
   }, []);
 
-   // Function to handle when the Enter key is pressed
-   const handleKeyDown = (e) => {
+  useEffect(() => {
+    // Check if the access token is valid, and if not, handle it
+    if (!API.isAccessTokenValid()) {
+      API.handleAccessToken();
+    }
+  }, []);
+
+  const handleLogin = () => {
+    API.redirectToSpotify();
+  }
+
+  // Function to handle when the Enter key is pressed
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.target.blur();
     }
@@ -43,7 +54,7 @@ function App() {
       .then((data) => {
         console.log('Data from Spotify API:', data);
         console.log('Tracks:', data.tracks.items);
-        // Update tracks with search results 
+        // Update tracks with search results
         setTracks(data.tracks.items);
       })
       .catch((error) => {
@@ -53,13 +64,23 @@ function App() {
 
   // Add a track to the playlist
   const addToPlaylist = (track) => {
-    setPlaylist([...playlist, track]);
+    // Check if the track is already in the playlist
+    if (!playlist.includes(track)) {
+      setPlaylist([...playlist, track]);
+    } else {
+      // Display a message indicating that the track is a duplicate
+      alert('This track is already in your playlist.');
+    }
   };
 
   // Remove a track from the playlist
   const removeFromPlaylist = (trackToRemove) => {
-    const updatedPlaylist = playlist.filter((track) => track !== trackToRemove);
-    setPlaylist(updatedPlaylist);
+    // Add a confirmation dialog to confirm removal
+    const confirmRemove = window.confirm('Are you sure you want to remove this track from the playlist?');
+    if (confirmRemove) {
+      const updatedPlaylist = playlist.filter((track) => track !== trackToRemove);
+      setPlaylist(updatedPlaylist);
+    }
   };
 
   const savePlaylist = async () => {
@@ -69,16 +90,16 @@ function App() {
       try {
         const userId = await API.getUserProfileId(accessToken);
         const newPlaylist = await API.createPlaylist(accessToken, userId, playlistName);
-  
-        if (playlist) {
+
+        if (newPlaylist) {
           const playlistId = newPlaylist.id; // Get the ID of the newly created playlist
-  
+
           // Extract the track URIs from the playlist
           const trackURIs = playlist.map((track) => track.uri);
-  
+
           // Add the tracks to the playlist
           const addTracksResponse = await API.addTracksToPlaylist(accessToken, playlistId, trackURIs);
-  
+
           if (addTracksResponse) {
             // Log the name and the tracks in the console
             console.log('Playlist Name:', playlistName);
@@ -112,7 +133,7 @@ function App() {
         {!loggedIn ? (
           <div className="row">
             <div className="col-md-6">
-              <button className="signin-button" onClick={API.redirectToSpotify}>
+              <button className="signin-button" onClick={handleLogin}>
                 Sign In with Spotify
               </button>
             </div>
@@ -132,7 +153,6 @@ function App() {
                 <SearchResults tracks={tracks} addToPlaylist={addToPlaylist} />
               </div>
               <div className="col-md-6">
-                
                 {/* Input field for the playlist name */}
                 <h2>
                   <input
@@ -142,7 +162,7 @@ function App() {
                     onChange={(e) => setPlaylistName(e.target.value)}
                     onKeyDown={handleKeyDown}
                   />
-                {/* Display the playlist */}
+                  {/* Display the playlist */}
                 </h2>
                 <Playlist tracks={playlist} removeFromPlaylist={removeFromPlaylist} />
                 <div className="text-center mt-4">

@@ -4,7 +4,7 @@ export function redirectToSpotify() {
   const redirect_uri = 'http://localhost:3000/callback';
   const stateKey = 'spotify_auth_state';
   const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private playlist-modify-public playlist-modify-private';
-  const show_dialog = false;
+  const show_dialog = true;
 
   // Generate a random state for security purposes
   const state = generateRandomString(16);
@@ -38,17 +38,44 @@ function generateRandomString(length) {
 }
 
 
-// Function to extract the access token from the URL fragment
+// Function to extract the access token and its expiration from the URL fragment
 export function extractAccessToken() {
   const currentUrl = window.location.href;
   const urlFragment = currentUrl.split('#')[1]; // Split URL at '#' to get the fragment
   if (urlFragment) { // Check if fragment exists
     const urlParams = new URLSearchParams(urlFragment); // Parse URL fragment into parameters
     const accessToken = urlParams.get('access_token'); // Get the 'access_token' parameter
-    return accessToken; // Return the access token or null if not found
+    const expiresAt = urlParams.get('expires_in'); // Get the 'expires_in' parameter
+    if (accessToken && expiresAt) {
+      const expirationTimestamp = Date.now() + parseInt(expiresAt, 10) * 1000; // Calculate the token expiration timestamp
+
+      // Set the access token and expiration timestamp in local storage
+      localStorage.setItem('access_token', accessToken);
+      localStorage.setItem('token_expiration', expirationTimestamp);
+
+      return accessToken;
+    }
   }
-  return null; // Return null if there is no fragment
+  return null;
 }
+
+// Function to check if the access token is still valid
+export function isAccessTokenValid() {
+  const accessToken = localStorage.getItem('access_token');
+  const expirationTimestamp = localStorage.getItem('token_expiration');
+  const currentTime = Date.now();
+
+  return accessToken && expirationTimestamp && currentTime < expirationTimestamp;
+}
+
+// Function to redirect the user to Spotify if the token is missing or expired
+export function handleAccessToken() {
+  if (!isAccessTokenValid()) {
+    // Access token is missing or expired, redirect the user to Spotify for reauthorization
+    redirectToSpotify();
+  }
+}
+
 
 // Function to get the current user's profile
 export async function getUserProfileId(accessToken) {
@@ -83,6 +110,7 @@ export async function getUserProfileId(accessToken) {
 
 // Function to search for tracks on Spotify using the provided access token
 export async function searchSpotify(query, accessToken) {
+  handleAccessToken(); // Check access token validity
   const cors = 'https://cors-anywhere.herokuapp.com/';
   const apiUrl = cors + 'https://api.spotify.com/v1/search?q=' + encodeURIComponent(query) + '&type=track';
   const headers = {

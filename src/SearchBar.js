@@ -31,7 +31,7 @@ const SearchBar = ({ onSearch }) => {
         />
         {/* Search button */}
         <button onClick={handleSearch}>Search</button>
-    </div>
+      </div>
     </div>
   );
 };

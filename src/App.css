@@ -2,22 +2,23 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to bottom, #5F04B4, #FF00FF);
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to bottom, #2E0249, #F806CC);
   color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
-/* Style the header */
+/* Improve header readability */
 header {
-  background-color: #34004D;
+  background-color: #570A57;
   padding: 20px;
   text-align: center;
-  width: 100%;
 }
 
 /* Style the h1 element in the header */
 header h1 {
-  font-size: 36px;
+  font-size: 2rem;
   margin: 0;
   color: #fff;
 }
@@ -25,60 +26,38 @@ header h1 {
 /* Center the app content horizontally */
 .App {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start; /* Adjust alignment */
+  min-height: 100vh;
+  flex-wrap: wrap; /* Allow content to wrap to the next row */
 }
 
 /* Style the main content container */
 .container {
-  max-width: 1200px;
-  margin: 20px auto; /* Center the container horizontally */
+  max-width: 800px; /* Reduce max-width */
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  background: #570A57;
+  padding: 10px; /* Reduce padding */
+  font-size: 1rem;
+  color: #fff;
 }
 
-/* Style the columns */
-.column {
-  padding: 20px;
-}
-
-/* Style the search container */
-.search-container {
-  display: flex;
-  justify-content: center; /* Center the content horizontally */
-  align-items: flex-start; /* Align items to the top */
-  padding: 20px 0; /* Add padding to the top for spacing */
-}
-
-/* Style the search bar */
-input[type="text"] {
-  padding: 10px;
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
-}
-
-/* Style the rounded buttons */
-button,
-button.save-button {
-  /* Apply to all buttons */
-  padding: 10px 20px;
-  background-color: #5F04B4;
+/* Simplify button styles and improve readability */
+button {
+  padding: 8px 12px; /* Reduce button size */
+  background-color: #2E0249;
   color: #fff;
   border: none;
-  border-radius: 20px; /* Rounded corners for all buttons */
-  font-size: 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-/* Add a hover effect to all buttons */
-button:hover,
-button.save-button:hover {
-  /* Apply to all buttons */
-  background-color: #8d1b95;
-  /* Special styling for "Save to Spotify" button */
+/* Add a hover effect to buttons */
+button:hover {
+  background-color: #F806CC;
 }
 
 /* Style the tracklist */
@@ -89,84 +68,138 @@ button.save-button:hover {
 
 /* Style individual tracks */
 .track {
-  display: flex;
-  justify-content: space-between;
+  display: flex; /* Use flexbox for better control */
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
+  padding: 8px 0; /* Reduce padding */
+  border-bottom: 1px solid #383838;
 }
 
 /* Style track information */
 .track-info {
-  flex: 1;
+  flex: 1; /* Allow the track info to expand */
   padding-left: 10px;
 }
 
 /* Style buttons */
 .buttons {
   display: flex;
+  justify-content: flex-end;
 }
 
-/* Style the results and playlist columns */
-.column.results {
-  background-color: #8d1b95;
-  border-radius: 0 10px 10px 0;
+/* Style columns using CSS Grid */
+.column {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 10px; /* Reduce padding */
 }
 
-.column.playlist {
-  background-color: #6B1A82;
-  border-radius: 10px 0 0 10px;
+/* Improve search bar style */
+input[type="text"] {
+  padding: 8px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  background: #242424;
+  color: #fff;
 }
 
-/* Font Awesome icon styling for the "Save to Spotify" button */
-button.save-button i {
-  margin-right: 5px; /* Add spacing between the icon and text */
-  font-size: 16px;
-}
-
-/* Style the "Add to Playlist" and "Remove from Playlist" buttons */
+/* Improve "Add to Playlist" and "Remove from Playlist" button styles */
 button.add-button,
 button.remove-button {
-  padding: 10px 20px;
-  background-color: #4CAF50; /* Green color for "Add to Playlist" */
+  padding: 8px 12px; /* Reduce button size */
+  background-color: #4CAF50;
   color: #fff;
   border: none;
-  border-radius: 20px; /* Rounded corners for consistency */
-  font-size: 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin: 5px; /* Add spacing between buttons */
+  margin: 5px;
 }
 
-/* Add a hover effect to the "Add to Playlist" and "Remove from Playlist" buttons */
+/* Add a hover effect to these buttons */
 button.add-button:hover,
 button.remove-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+  background-color: #45a049;
 }
 
-/* Style the input within an h2 element */
+/* Simplify the input within an h2 element style */
 h2 input[type="text"] {
   border: none;
   background: none;
   box-shadow: none;
-  color: inherit; /* Inherit the text color from its parent */
-  font-size: inherit; /* Inherit the font size from its parent */
-  font-family: inherit; /* Inherit the font family from its parent */
-  padding: 0; /* Remove padding to make it inline with text */
-  width: auto; /* Allow it to expand to fit content */
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 2px;
+  width: auto;
 }
 
-/* Define a keyframe animation */
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+/* Style the "Results" and "Playlist" columns */
+.column.results {
+  background-color: #571257;
+  color: #fff;
+  flex: 1; /* Allow both columns to share available space */
 }
 
-/* Apply the animation to an element */
-.rotate-element {
-  animation: rotate 2s linear infinite; /* Apply the "rotate" animation for 2 seconds infinitely */
+.column.playlist {
+  background-color: #2E0249;
+  color: #fff;
+  flex: 1; /* Allow both columns to share available space */
 }
+
+/* Improve button consistency and spacing */
+button.save-button i {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+/* Style individual tracks */
+.track {
+  display: flex; /* Use flexbox for better control */
+  align-items: center;
+  padding: 8px 0; /* Reduce padding */
+  border-bottom: 2px solid #383838; /* Increase border thickness */
+}
+
+/* Style artist name */
+.track .artist-name {
+  font-size: 0.8rem; /* Decrease font size for artist name */
+}
+/* Style track information */
+.track-info {
+  flex: 1; /* Allow the track info to expand */
+  padding-left: 10px;
+}
+
+/* Style explicit tag */
+.explicit-tag {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(79, 79, 79);
+  color: rgb(255, 55, 55);
+  width: 0.6rem;
+  height: 0.6rem;
+  font-size: 0.6rem;
+  margin-left: 5px;
+  position: relative; /* Use relative positioning */
+  top: -8px;
+  padding: 4px;
+}
+
+/* Style the "Results" and "Playlist" columns */
+.column.results {
+  background-color: #571257;
+  color: #fff;
+  flex: 1; /* Allow both columns to share available space */
+}
+
+.column.playlist {
+  background-color: #2E0249; /* Different background color for the playlist */
+  color: #fff;
+  flex: 1; /* Allow both columns to share available space */
+}
+
+

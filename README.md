@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# Jammming - A Spotify Playlist Manager
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Purpose of the Project
 
-## Available Scripts
+Jammming is a web application that allows users to search for music tracks on Spotify and create custom playlists. The primary purpose of this project is to demonstrate the integration of the Spotify Web API for searching and managing music tracks, user authentication using the Implicit Grant Flow, and playlist creation.
 
-In the project directory, you can run:
+## Technologies Used
 
-### `npm start`
+The project utilizes the following technologies and libraries:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React**: The front-end of the application is built using the React JavaScript library for creating user interfaces.
+- **HTML/CSS**: Basic HTML and CSS are used for structuring the web page and applying styles.
+- **Spotify Web API**: To search for music tracks, create custom playlists, and manage user playlists.
+- **localStorage**: Used to store and manage the access token and token expiration timestamp for user authentication.
+- **CORS Anywhere**: A CORS proxy server is employed to handle cross-origin requests to the Spotify Web API.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+### User Authentication
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Users can sign in with their Spotify accounts using the Implicit Grant Flow for secure authentication.
 
-### `npm run build`
+### Search for Music
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Users can search for music tracks on Spotify by entering search queries in the search bar.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### View Search Results
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The application displays search results, including track names, artists, albums, and a button to add tracks to the playlist.
 
-### `npm run eject`
+### Create Custom Playlists
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Users can create custom playlists by entering a playlist name and adding tracks from the search results.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Remove Tracks from Playlist
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Tracks can be removed from the playlist by clicking the '-' button.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Save to Spotify
 
-## Learn More
+Users can save their custom playlist to their Spotify account by clicking the "Save to Spotify" button.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Error Handling
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The application handles errors related to missing or expired access tokens and provides feedback to the user.
 
-### Code Splitting
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Searching for Music
 
-### Analyzing the Bundle Size
+1. Sign in with your Spotify account.
+2. Enter a search query in the search bar and press "Enter" or click "Search."
+3. View the search results and click the "+" button to add tracks to your playlist.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Creating and Saving Playlists
 
-### Making a Progressive Web App
+1. Enter a name for your playlist in the input field.
+2. Add tracks from the search results to your playlist.
+3. Click "Save to Spotify" to save your playlist to your Spotify account.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Troubleshooting
 
-### Advanced Configuration
+### Access Token Issues
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+If you encounter issues related to the access token, such as being redirected to Spotify's login page repeatedly, try the following:
 
-### Deployment
+- Check your internet connection.
+- Make sure your Spotify account is active and you are logged in.
+- Clear your browser's cache and cookies, or try using an incognito/private browsing window.
+- Ensure your application's redirect URI matches the one specified in your Spotify Developer Dashboard.
+- Reauthorize your account with Spotify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Future Work
 
-### `npm run build` fails to minify
+While the current version of Jammming offers a basic set of features, there is room for improvement and expansion. Some future work could include:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Playlist Management: Enhance the playlist management capabilities, such as reordering tracks, renaming playlists, and deleting playlists.
+- User Profile Information: Display additional user profile information retrieved from Spotify, such as profile pictures and display names.
+- Custom Playlists: Allow users to create more personalized playlists with features like custom cover images and descriptions.
+- Advanced Search Filters: Implement advanced search filters, such as sorting by popularity, filtering by release date, and more.
+- Mobile Responsiveness: Optimize the application for a better user experience on mobile devices.
+- Collaborative Playlists: Enable collaborative playlist creation, allowing multiple users to add and edit tracks in the same playlist.
+- User Playlist Library: Display the user's existing playlists and offer the option to add tracks to those playlists.
+- User Feedback: Provide user feedback, such as success messages upon creating or saving playlists and improved error handling.
+
+Feel free to contribute to the project, report issues, or suggest additional features to make Jammming even better.
