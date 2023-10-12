@@ -68,7 +68,7 @@ If you encounter issues related to the access token, such as being redirected to
 - Make sure your Spotify account is active and you are logged in.
 - Clear your browser's cache and cookies, or try using an incognito/private browsing window.
 - Ensure your application's redirect URI matches the one specified in your Spotify Developer Dashboard.
-- Reauthorize your account with Spotify
+- Reauthorize your account with Spotify.
 
 ## Future Work
 
